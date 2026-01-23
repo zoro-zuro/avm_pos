@@ -36,7 +36,6 @@ export default defineConfig({
                */
               external: [
                 "electron-pos-printer",
-                "",
                 "electron",
                 "path",
                 "fs",
@@ -44,6 +43,7 @@ export default defineConfig({
                 "better-sqlite3",
                 "drizzle-orm",
                 "bcrypt",
+                "file-uri-to-path",
               ],
             },
           },

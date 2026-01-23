@@ -9,7 +9,6 @@ if (!(global as any).__dirname) {
   (global as any).__dirname = import.meta.url;
 }
 
-import bcrypt from "bcrypt";
 import type { Database } from "better-sqlite3";
 import { count, eq } from "drizzle-orm";
 import { db, sqlite } from "./db";
@@ -24,6 +23,11 @@ import {
   transactions,
   users,
 } from "./schema";
+
+// Use createRequire for CommonJS modules (bcrypt)
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const bcrypt = require("bcrypt");
 
 function hasColumn(sqliteDb: Database, table: string, column: string) {
   const rows = sqliteDb.prepare(`PRAGMA table_info(${table})`).all() as Array<{

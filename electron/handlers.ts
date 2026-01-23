@@ -10,7 +10,6 @@ if (!(global as any).__dirname) {
 }
 
 import { BrowserWindow, ipcMain } from "electron";
-import bcrypt from "bcrypt";
 import { and, count, desc, eq, gte, lte } from "drizzle-orm";
 import { db } from "./db";
 import {
@@ -31,6 +30,11 @@ import {
   userSettings,
   users,
 } from "./schema";
+
+// Use createRequire for CommonJS modules (bcrypt, better-sqlite3)
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const bcrypt = require("bcrypt");
 
 // Types for bill printing
 type BillItem = { name: string; qty: number; price: number };

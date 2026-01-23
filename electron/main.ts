@@ -5,13 +5,27 @@
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
+import { createRequire } from "node:module"; // Added for ESM compatibility
+
 // Polyfill __filename and __dirname for CommonJS modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url); // Create require function
 
 // Make these available globally for CommonJS modules
 (global as any).__filename = __filename;
 (global as any).__dirname = __dirname;
+(global as any).require = require; // Now this works because 'require' is defined
+try {
+  // Try to provide file-uri-to-path if it's not available
+  if (!require.cache[require.resolve('file-uri-to-path')]) {
+    const fileUriToPath = require('file-uri-to-path');
+    (global as any)['file-uri-to-path'] = fileUriToPath;
+  }
+} catch (e) {
+  // If file-uri-to-path is not available, provide a basic polyfill
+  (global as any)['file-uri-to-path'] = fileURLToPath;
+}
 
 import { app, BrowserWindow } from "electron";
 import { setupHandlers } from "./handlers";
