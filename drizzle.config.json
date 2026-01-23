@@ -1,0 +1,8 @@
+{
+  "schema": "./electron/schema.ts",
+  "out": "./drizzle",
+  "dialect": "sqlite",
+  "dbCredentials": {
+    "url": "./shop.db"
+  }
+}
